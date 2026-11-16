@@ -1,0 +1,10 @@
+const path = require('node:path');
+const { DatabaseSync } = require('node:sqlite');
+const db = new DatabaseSync(path.join(process.env.TEMP, 'asba_probe', 'sync-data', 'asba.db'), { readOnly: true });
+const q = (sql) => db.prepare(sql).all();
+console.log('null dates:', q('select count(*) n from articles where published_at is null'));
+console.log('nov 13/14:', q("select count(*) n from articles where substr(published_at,1,10) in ('2026-11-13','2026-11-14')"));
+console.log('recent openai:', q('select title, published_at from articles where site_id=2 order by published_at desc limit 4'));
+console.log('dates by year:', q("select substr(published_at,1,4) y, count(*) n from articles where site_id=2 group by y order by y desc limit 8"));
+console.log('failures:', q('select title, fetch_error from articles where fetch_error is not null'));
+db.close();

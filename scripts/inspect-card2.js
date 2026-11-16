@@ -1,0 +1,10 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const { JSDOM } = require('jsdom');
+const OUT = path.join(process.env.TEMP, 'asba_probe');
+const html = fs.readFileSync(path.join(OUT, 'openai_index_after_load.html'), 'utf8');
+const dom = new JSDOM(html, { url: 'https://openai.com/research/index/' });
+const doc = dom.window.document;
+const a = [...doc.querySelectorAll('a[href^="/index/"]')].find((x) => x.href.includes('measuring-how'));
+console.log('ANCHOR HTML:\n' + a.outerHTML.slice(0, 1200));
+console.log('\nCARD HTML:\n' + a.parentElement.parentElement.outerHTML.slice(0, 1800));

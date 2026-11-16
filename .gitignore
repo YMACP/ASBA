@@ -1,0 +1,21 @@
+node_modules/
+dist/
+release/
+.npmrc
+.env
+.env.*
+*.pem
+*.key
+*.p12
+settings.json
+build/icon.ico.bak
+*.log
+.DS_Store
+Thumbs.db
+
+# 预置文章库（16 MB，构建安装包时作为 resources 打入）
+seed.db
+
+# 本机打包/安装产物
+*.exe
+ASBA/
